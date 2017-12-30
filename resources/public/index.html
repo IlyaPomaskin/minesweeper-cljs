@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type='text/javascript' id='lt_ws' src='http://localhost:5678/socket.io/lighttable/ws.js'></script>
+    <style>
+      * {
+        font-family: monospace;
+        font-size: 20px;
+        user-select: none;
+      }
+      .open {
+        background-color: rgb(186, 186, 186);
+        border-color: rgb(186, 186, 186);
+      }
+      button:active {
+        border-style: solid;
+      }
+      button:focus {
+        outline: none;
+      }
+      .mine {
+        background-color: crimson;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="js/main.js" type="text/javascript"></script>
+  </body>
+</html>
