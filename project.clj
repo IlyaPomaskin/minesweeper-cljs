@@ -12,17 +12,23 @@
             [lein-figwheel "0.5.14"]]
   :main ms.main
   :source-paths ["src"]
-  :cljsbuild {
-    :builds [{ :id "main"
-      :source-paths ["src"]
-      :figwheel true
-      :compiler {
-        :main "ms.main"
-        :asset-path "js/out"
-        :output-to "resources/public/js/main.js"
-        :output-dir "resources/public/js/out"
-        :optimizations :none
-        :verbose true
-        :pretty-print true
-        :source-map true }}]})
+  :cljsbuild { :builds [{ :id "dev"
+                          :source-paths ["src"]
+                          :figwheel true
+                          :compiler { :main "ms.main"
+                                      :asset-path "resources/public/js/assets/out"
+                                      :output-to "resources/public/js/main.js"
+                                      :output-dir "resources/public/js/out"
+                                      :optimizations :none
+                                      :verbose true
+                                      :pretty-print true
+                                      :source-map true }}
+                        { :id "prod"
+                          :source-paths ["src"]
+                          :compiler { :main "ms.main"
+                                      :asset-path "js/out"
+                                      :output-to "js/main.js"
+                                      :output-dir "js/out"
+                                      :optimizations :advanced
+                                      :pretty-print false }}]})
 
