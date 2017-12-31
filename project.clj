@@ -16,7 +16,7 @@
                           :source-paths ["src"]
                           :figwheel true
                           :compiler { :main "ms.main"
-                                      :asset-path "resources/public/js/assets/out"
+                                      :asset-path "js/out"
                                       :output-to "resources/public/js/main.js"
                                       :output-dir "resources/public/js/out"
                                       :optimizations :none
