@@ -39,13 +39,15 @@
 
 (rum/defc state [game]
   [:div
+   [:br]
    (if (:win? game) "Win!")
    (if (:loss? game) "Game over!")])
 
 (rum/defc app [game]
-  [:div
+  [:div { :class "app" }
    [[:div { :key "game" } (field (:field game))]
     [:div { :key "state" } (state game)]
+    [:br { :key "br" }]
     [:button { :key "new-game"
                :on-click #(new-game-click) } "New game"]]])
 
