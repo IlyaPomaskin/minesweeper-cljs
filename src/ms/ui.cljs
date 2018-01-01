@@ -17,7 +17,7 @@
   [cell]
   (update #(game/flag (cell/coords cell) %)))
 
-(rum/defc field-cell < { :key-fn cell/key }
+(rum/defc field-cell < rum/static { :key-fn cell/key }
   [cell]
   [:button
    { :on-click #(cell-click cell)
@@ -29,21 +29,21 @@
                    { :open? true } "open"
                    :else "close") }
    (cell/render cell)])
-(rum/defc field-row < { :key-fn (fn [index row] (str index)) }
+(rum/defc field-row < rum/static { :key-fn (fn [index row] (str index)) }
   [index row]
   [:div (mapv field-cell row)])
-(rum/defc field
+(rum/defc field < rum/static
   [field]
   [:div (map-indexed field-row field)])
 
-(rum/defc state
+(rum/defc state < rum/static
   [game]
   [:div
    [:br]
    (if (:win? game) "Win!")
    (if (:loss? game) "Game over!")])
 
-(rum/defc app
+(rum/defc app < rum/static
   [game]
   [:div { :class "app" }
    [[:div { :key "game" } (field (:field game))]
@@ -52,6 +52,6 @@
     [:button { :key "new-game"
                :on-click #(new-game-click) } "New game"]]])
 
-(rum/defc app-wrapper < rum/reactive
+(rum/defc app-wrapper < rum/static rum/reactive
   []
   (app (rum/react GAME)))
