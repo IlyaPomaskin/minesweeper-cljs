@@ -65,4 +65,6 @@
            (open-cells cells-for-open)
            update-state))))
 (defn flag [coords game]
-  (update-in game [:field] #(cell/switch-flag coords %)))
+  (if (finished? game)
+    game
+    (update-in game [:field] #(cell/switch-flag coords %))))
