@@ -24,41 +24,45 @@
     field))
 
 (defn generate [x-size y-size]
-  (mapv (fn [y] (mapv (fn [x] (cell/create x y))
+  (mapv (fn [y] (mapv (fn [x] (cell/create [x y]))
                       (range-vec x-size)))
         (range-vec y-size)))
-(defn get-neighbours [x y pred-fn field]
+(defn get-neighbours [[x y] pred-fn field]
   (set (reduce
          (fn [neighbours [x-offset y-offset]]
            (let [x (+ x x-offset)
                  y (+ y y-offset)
-                 cell (cell/get x y field)]
+                 cell (cell/get [x y] field)]
              (if (and (some? cell)
                       (pred-fn cell))
                (conj neighbours [x y])
                neighbours)))
          []
          neighbours-offset)))
-(defn get-empty-cells [cells x y field]
-  (let [neighbours (get-neighbours x y cell/empty? field)
+(defn get-empty-cells
+  [cells coords field]
+  (let [neighbours (get-neighbours coords cell/empty? field)
         new-cells (clojure.set/difference neighbours cells)]
     (reduce
-      (fn [acc [x y]]
+      (fn [acc next-coords]
         (clojure.set/union
           acc
-          (get-empty-cells (conj acc [x y]) x y field)))
+          (get-empty-cells (conj acc next-coords)
+                           next-coords
+                           field)))
       cells
       new-cells)))
-(defn get-contour [cells game]
+(defn get-contour [cells field]
   (reduce
-    (fn [acc [x y]]
+    (fn [acc coords]
       (clojure.set/union
         acc
-        (get-neighbours x y (constantly true) game)))
+        (get-neighbours coords (constantly true) field)))
     #{}
     cells))
 
-(defn get-empty-neighbours [x y game]
-  (let [cells (get-empty-cells #{[x y]} x y game)
-        cells-w-contour (get-contour cells game)]
-    (vec cells-w-contour)))
+(defn get-empty-neighbours [coords field]
+  (vec
+    (get-contour
+      (get-empty-cells #{coords} coords field)
+      field)))

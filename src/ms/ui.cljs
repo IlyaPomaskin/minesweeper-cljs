@@ -12,15 +12,12 @@
   (update #(game/create 10 10 10)))
 (defn cell-click
   [cell]
-  (update #(game/move (:x cell) (:y cell) %)))
+  (update #(game/move (cell/coords cell) %)))
 (defn right-cell-click
   [cell]
-  (update #(game/flag (:x cell) (:y cell) %)))
+  (update #(game/flag (cell/coords cell) %)))
 
-(defn cell-key
-  [cell]
-  (str (:x cell) "_" (:y cell)))
-(rum/defc field-cell < { :key-fn cell-key }
+(rum/defc field-cell < { :key-fn cell/key }
   [cell]
   [:button
    { :on-click #(cell-click cell)

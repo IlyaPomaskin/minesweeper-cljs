@@ -10,18 +10,17 @@
   (vec (repeatedly count (fn [] [(rand-int x-size) (rand-int y-size)]))))
 (defn place-mines [mines field]
   (reduce
-    (fn [acc [x y]] (cell/update x y acc cell/set-mine))
+    (fn [acc coords] (cell/update coords acc cell/set-mine))
     field
     mines))
-(defn get-mines-count [x y game]
-  (count (field/get-neighbours x y cell/mine? game)))
+(defn get-mines-count [coords field]
+  (count (field/get-neighbours coords cell/mine? field)))
 (defn update-mines-count [field]
   (map-items
     (fn [cell]
-      (let [x (:x cell)
-            y (:y cell)
-            count (get-mines-count x y field)]
-        (cell/set-count count cell)))
+      (cell/set-count
+        (get-mines-count (cell/coords cell) field)
+        cell))
     field))
 
 (defn create [x-size y-size count]
@@ -48,21 +47,22 @@
     [:field]
     (fn [field]
       (reduce
-        (fn [acc [x y]] (cell/open x y acc))
+        (fn [acc coords] (cell/open coords acc))
         field
         cells))))
-(defn move [x y game]
+(defn move [coords game]
   (let [field (:field game)
-        cell (cell/get x y field)
+        cell (cell/get coords field)
         cells-for-open (if (or (cell/mine? cell)
                                (not (cell/empty? cell)))
-                         [[x y]]
-                         (field/get-empty-neighbours x y field))]
+                         [coords]
+                         (field/get-empty-neighbours coords field))]
     (if (or (finished? game)
             (cell/flag? cell))
       game
       (->> game
+           (open-cells [coords])
            (open-cells cells-for-open)
            update-state))))
-(defn flag [x y game]
-  (update-in game [:field] #(cell/switch-flag x y %)))
+(defn flag [coords game]
+  (update-in game [:field] #(cell/switch-flag coords %)))

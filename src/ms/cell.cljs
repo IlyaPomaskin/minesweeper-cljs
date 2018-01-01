@@ -14,11 +14,12 @@
 (defn close? [cell] (not (open? cell)))
 (defn empty? [cell] (= 0 (:count cell)))
 (defn coords [cell] [(:x cell) (:y cell)])
-(defn create [x y] { :x x :y y :open? false })
-(defn get [x y field] (get-in field [y x]))
-(defn update [x y field fn] (update-in field [y x] fn))
-(defn open [x y field] (update x y field set-open))
-(defn switch-flag [x y field] (update x y field set-next-flag))
+(defn key [cell] (str (:x cell) "-" (:y cell)))
+(defn create [[x y]] { :x x :y y :open? false })
+(defn get [[x y] field] (get-in field [y x]))
+(defn update [[x y] field fn] (update-in field [y x] fn))
+(defn open [coords field] (update coords field set-open))
+(defn switch-flag [coords field] (update coords field set-next-flag))
 
 (defn render [cell]
   (match cell
