@@ -1,7 +1,8 @@
 (ns ms.cell
-  (:require [clojure.core.match :refer [match]]))
+  (:require [clojure.core.match :refer [match]]
+            [goog.string :as gstring]))
 
-(def long-space " ")
+(def long-space (gstring/unescapeEntities "&nbsp;"))
 
 (defn set-open [cell] (assoc cell :open? true))
 (defn set-mine [cell] (assoc cell :mine? true))
