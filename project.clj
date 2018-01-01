@@ -16,9 +16,9 @@
                           :source-paths ["src"]
                           :figwheel true
                           :compiler { :main "ms.main"
-                                      :asset-path "js/out"
-                                      :output-to "resources/public/js/main.js"
-                                      :output-dir "resources/public/js/out"
+                                      :asset-path "js/dev"
+                                      :output-to "resources/public/js/dev.js"
+                                      :output-dir "resources/public/js/dev"
                                       :optimizations :none
                                       :verbose true
                                       :pretty-print true
@@ -26,9 +26,10 @@
                         { :id "prod"
                           :source-paths ["src"]
                           :compiler { :main "ms.main"
-                                      :asset-path "js/out"
-                                      :output-to "js/main.js"
-                                      :output-dir "js/out"
+                                      :asset-path "js/prod"
+                                      :output-to "resources/public/js/prod.js"
+                                      :output-dir "resources/public/js/prod"
+                                      :source-map "resources/public/js/prod.js.map"
                                       :optimizations :advanced
                                       :pretty-print false }}]})
 

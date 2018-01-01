@@ -1,5 +1,6 @@
 js/out
-resources/public/js/out
-resources/public/js/main.js
+resources/public/js/dev
+resources/public/js/prod
+resources/public/js/dev.js
 target/
 figwheel_server.log
